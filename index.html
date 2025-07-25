@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FFIX Fixed Damage Abilities Calculator by KFCPhantasm</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .gold-text { color: #FFD700; }
+    input[type=range]::-webkit-slider-thumb { background: #FFD700; }
+    input[type=range] { accent-color: #FFD700; }
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
+    .gold-glow {
+      border: 2px solid #FFD700;
+      box-shadow: 0 0 6px #FFD700;
+    }
+  </style>
+</head>
+<body class="bg-gray-950 text-white min-h-screen p-6">
+  <h1 class="text-3xl font-bold gold-text text-center mb-10">
+    FFIX Fixed Damage Abilities Calculator by KFCPhantasm
+  </h1>
+
+  <!-- Top row -->
+  <div class="flex flex-wrap justify-center gap-10 mb-10">
+    <div class="bg-gray-900 p-6 rounded-2xl shadow-lg w-full max-w-sm">
+      <h2 class="text-xl font-bold gold-text mb-4 text-center">Thievery</h2>
+      <label class="block mb-1 font-medium">Successful Steals:</label>
+      <div class="flex items-center gap-3 mb-4">
+        <input type="range" min="0" max="9999" value="0" id="steals" class="w-full" />
+        <input type="number" min="0" max="9999" value="0" id="stealsInput" class="w-20 px-2 py-1 bg-gray-800 rounded text-white text-right gold-glow" />
+      </div>
+      <label class="block mb-1 font-medium">Zidane's Speed: <span id="speedVal">23</span></label>
+      <input type="range" min="23" max="50" value="23" id="speed" class="w-full mb-4" />
+      <div class="mt-4 font-bold text-lg text-center">Damage: <span id="thieveryResult">0</span></div>
+      <div class="mt-2 text-sm text-gray-300 text-center"><span id="thieveryBreakdown">0 × (23 ÷ 2) = 0</span></div>
+    </div>
+
+    <div class="bg-gray-900 p-6 rounded-2xl shadow-lg w-full max-w-sm">
+      <h2 class="text-xl font-bold gold-text mb-4 text-center">Dragon's Crest</h2>
+      <label class="block mb-1 font-medium">Dragons Killed:</label>
+      <div class="flex items-center gap-3 mb-4">
+        <input type="range" min="0" max="9999" value="0" id="dragons" class="w-full" />
+        <input type="number" min="0" max="9999" value="0" id="dragonsInput" class="w-20 px-2 py-1 bg-gray-800 rounded text-white text-right gold-glow" />
+      </div>
+      <div class="mt-4 font-bold text-lg text-center">Damage: <span id="dragonsResult">0</span></div>
+      <div class="mt-2 text-sm text-gray-300 text-center"><span id="dragonsBreakdown">0 × 0 = 0</span></div>
+    </div>
+  </div>
+
+  <!-- Bottom row -->
+  <div class="flex flex-wrap justify-center gap-10">
+    <div class="bg-gray-900 p-6 rounded-2xl shadow-lg w-full max-w-sm">
+      <h2 class="text-xl font-bold gold-text mb-4 text-center">Frog Drop</h2>
+      <label class="block mb-1 font-medium">Quina's Level: <span id="levelVal">1</span></label>
+      <input type="range" min="1" max="99" value="1" id="level" class="w-full mb-4" />
+      <label class="block mb-1 font-medium">Frogs Caught:</label>
+      <div class="flex items-center gap-3 mb-4">
+        <input type="range" min="0" max="32767" value="0" id="frogs" class="w-full" />
+        <input type="number" min="0" max="32767" value="0" id="frogsInput" class="w-24 px-2 py-1 bg-gray-800 rounded text-white text-right gold-glow" />
+      </div>
+      <div class="mt-4 font-bold text-lg text-center">Damage: <span id="frogResult">0</span></div>
+      <div class="mt-2 text-sm text-gray-300 text-center"><span id="frogBreakdown">1 × 0 = 0</span></div>
+    </div>
+
+    <div class="bg-gray-900 p-6 rounded-2xl shadow-lg w-full max-w-sm">
+      <h2 class="text-xl font-bold gold-text mb-4 text-center">Spare Change</h2>
+      <label class="block mb-1 font-medium">Amarant's Level: <span id="scLevelVal">1</span></label>
+      <input type="range" min="1" max="99" value="1" id="scLevel" class="w-full mb-4" />
+      <label class="block mb-1 font-medium">Amarant's Spirit: <span id="scSpiritVal">15</span></label>
+      <input type="range" min="15" max="50" value="15" id="scSpirit" class="w-full mb-4" />
+      <label class="block mb-1 font-medium">Gil Owned:</label>
+      <input type="number" min="0" max="9999999" value="500" id="scGil" class="w-full mb-4 px-3 py-2 bg-gray-800 text-white rounded gold-glow text-right" />
+      <label class="inline-flex items-center mb-4">
+        <input type="checkbox" id="scElan" class="mr-2 accent-yellow-400" />
+        Elan (Split Between Enemies)
+      </label>
+      <div id="scEnemyCountWrap" class="mb-4 hidden">
+        <label class="block mb-1 font-medium">Number of Enemies: <span id="scEnemyVal">1</span></label>
+        <input type="range" min="1" max="4" value="1" id="scEnemies" class="w-full" />
+      </div>
+      <div class="font-bold text-lg text-center mt-6">
+        Damage: <span id="scDamage" class="text-yellow-400">0</span>
+      </div>
+      <div class="text-sm text-gray-300 text-center mt-2">
+        <span id="scBreakdown">Damage = floor((Gil Used² × Spirit) ÷ (Gil Owned × 10))</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const steals = document.getElementById('steals');
+    const stealsInput = document.getElementById('stealsInput');
+    const speed = document.getElementById('speed');
+    const dragons = document.getElementById('dragons');
+    const dragonsInput = document.getElementById('dragonsInput');
+    const level = document.getElementById('level');
+    const frogs = document.getElementById('frogs');
+    const frogsInput = document.getElementById('frogsInput');
+    const scLevel = document.getElementById('scLevel');
+    const scSpirit = document.getElementById('scSpirit');
+    const scGil = document.getElementById('scGil');
+    const scElan = document.getElementById('scElan');
+    const scEnemies = document.getElementById('scEnemies');
+    const scEnemyCountWrap = document.getElementById('scEnemyCountWrap');
+
+    function sync(slider, input) {
+      slider.addEventListener('input', () => {
+        input.value = slider.value;
+        update();
+      });
+      input.addEventListener('input', () => {
+        const val = parseInt(input.value) || 0;
+        const clamped = Math.min(val, parseInt(input.max));
+        input.value = clamped;
+        slider.value = clamped;
+        update();
+      });
+    }
+
+    sync(steals, stealsInput);
+    sync(dragons, dragonsInput);
+    sync(frogs, frogsInput);
+
+    [speed, level].forEach(el => el.addEventListener('input', update));
+
+    scLevel.addEventListener('input', () => {
+      document.getElementById('scLevelVal').textContent = scLevel.value;
+      update();
+    });
+    scSpirit.addEventListener('input', () => {
+      document.getElementById('scSpiritVal').textContent = scSpirit.value;
+      update();
+    });
+    scGil.addEventListener('input', () => {
+      const value = Math.min(9999999, parseInt(scGil.value) || 0);
+      scGil.value = value;
+      update();
+    });
+    scEnemies.addEventListener('input', () => {
+      document.getElementById('scEnemyVal').textContent = scEnemies.value;
+      update();
+    });
+    scElan.addEventListener('change', () => {
+      scEnemyCountWrap.classList.toggle('hidden', !scElan.checked);
+      update();
+    });
+
+    function update() {
+      const stealVal = parseInt(steals.value);
+      const speedVal = parseInt(speed.value);
+      const dragonsVal = parseInt(dragons.value);
+      const levelVal = parseInt(level.value);
+      const frogsVal = parseInt(frogs.value);
+      document.getElementById('speedVal').textContent = speedVal;
+      document.getElementById('levelVal').textContent = levelVal;
+      const thievery = Math.floor(stealVal * (speedVal / 2));
+      const dragonsCrest = dragonsVal * dragonsVal;
+      const frogDrop = levelVal * frogsVal;
+      document.getElementById('thieveryResult').textContent = thievery;
+      document.getElementById('dragonsResult').textContent = dragonsCrest;
+      document.getElementById('frogResult').textContent = frogDrop;
+      document.getElementById('thieveryBreakdown').textContent = `${stealVal} × (${speedVal} ÷ 2) = ${thievery}`;
+      document.getElementById('dragonsBreakdown').textContent = `${dragonsVal} × ${dragonsVal} = ${dragonsCrest}`;
+      document.getElementById('frogBreakdown').textContent = `${levelVal} × ${frogsVal} = ${frogDrop}`;
+      const scLvl = parseInt(scLevel.value);
+      const scSpr = parseInt(scSpirit.value);
+      const scGilVal = Math.max(1, Math.min(9999999, parseInt(scGil.value) || 0));
+      const scPower = scLvl * 101;
+      const numerator = scPower * scPower * scSpr;
+      const denominator = scGilVal * 10;
+      let raw = Math.floor(numerator / denominator);
+      if (scElan.checked) raw = Math.floor(raw / parseInt(scEnemies.value));
+      document.getElementById('scDamage').textContent = Math.min(raw, 9999);
+      document.getElementById('scBreakdown').textContent = `(${scPower}² × ${scSpr}) ÷ (${scGilVal} × 10) = ${raw}`;
+    }
+
+    update();
+  </script>
+</body>
+</html>
